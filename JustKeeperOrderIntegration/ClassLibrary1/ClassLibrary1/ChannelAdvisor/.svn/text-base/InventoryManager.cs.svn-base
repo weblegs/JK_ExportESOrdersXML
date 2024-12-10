@@ -1,0 +1,57 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.IO;
+using WeblegsClasses.api.channeladvisor.InventoryService;
+namespace WeblegsClasses.ChannelAdvisor
+{
+    
+    public class InventoryManager : Credentials
+    {
+        private string accountID;
+        private string currentPath = string.Empty;
+        public InventoryManager(string accountID)
+        {
+            this.accountID = accountID;
+            SetInventoryValues();
+            currentPath = Directory.GetCurrentDirectory();
+        }
+
+        public string[] GetFilteredSKUS(InventoryItemCriteria InvCrit)
+        {
+            try
+            {
+                return InvSer.GetFilteredSkuList(accountID, InvCrit, InventoryItemSortField.Sku, SortDirection.Ascending).ResultData;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public AttributeInfo[] GetInventoryItemAttributeList(string sku)
+        {
+            try
+            {
+                return InvSer.GetInventoryItemAttributeList(accountID, sku).ResultData;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public SynchInventoryItemResponse[] SynchInventoryItemList(InventoryItemSubmit[] InvItemList)
+        {
+            try
+            {
+                return InvSer.SynchInventoryItemList(accountID, InvItemList).ResultData;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+    }
+}

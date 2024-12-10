@@ -1,0 +1,1141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://prolog3pl.com/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://prolog3pl.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://prolog3pl.com/">
+      <s:element name="PLGetInventory">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="args" type="tns:PLGetInventoryArgs" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="PLGetInventoryArgs">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:ProLogApiArgs">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="AllProducts" type="s:boolean" />
+              <s:element minOccurs="0" maxOccurs="1" name="Products" type="tns:ArrayOfString" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="ProLogApiArgs" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="SystemId" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfString">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="PLGetInventoryResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PLGetInventoryResult" type="tns:PLGetInventoryResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="PLGetInventoryResult">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:ProLogApiResult">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Inventory" type="tns:ArrayOfPLInventory" />
+              <s:element minOccurs="1" maxOccurs="1" name="ProLogCode" type="tns:PLGetInventoryCode" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="ProLogApiResult" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ProLogMessage" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfPLInventory">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="PLInventory" nillable="true" type="tns:PLInventory" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="PLInventory">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ProLogProductId" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Product" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="QuantityAvailable" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="QuantityOnHand" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="QuantityAllocated" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="QuantityExpected" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="QuantityFrozen" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="InventoryByWarehouse" type="tns:ArrayOfPLWarehouseInventory" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfPLWarehouseInventory">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="PLWarehouseInventory" nillable="true" type="tns:PLWarehouseInventory" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="PLWarehouseInventory">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="WarehouseName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="WarehouseId" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="QuantityAvailable" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="QuantityOnHand" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="QuantityAllocated" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="QuantityExpected" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="QuantityFrozen" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="PLGetInventoryCode">
+        <s:restriction base="s:string">
+          <s:enumeration value="SUCCESS" />
+          <s:enumeration value="AUTHENTICATION_FAILURE" />
+          <s:enumeration value="NO_PRODUCTS" />
+          <s:enumeration value="INVALID_ARGS" />
+          <s:enumeration value="INTERNAL_ERROR" />
+          <s:enumeration value="INVALID_PRODUCT" />
+          <s:enumeration value="TOO_MANY_PRODUCTS_FOR_GET_ALL" />
+          <s:enumeration value="MAX_PRODUCTS_EXCEEDED" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="PLGetSKUData">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="args" type="tns:PLGetSKUDataArgs" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="PLGetSKUDataArgs">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:ProLogApiArgs">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="AllSKUs" type="s:boolean" />
+              <s:element minOccurs="0" maxOccurs="1" name="SKUs" type="tns:ArrayOfString" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="PLGetSKUDataResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PLGetSKUDataResult" type="tns:PLGetSKUDataResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="PLGetSKUDataResult">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:ProLogApiResult">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="SKUData" type="tns:ArrayOfPLSKU" />
+              <s:element minOccurs="1" maxOccurs="1" name="ProLogCode" type="tns:PLGetSKUDataCode" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="ArrayOfPLSKU">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="PLSKU" nillable="true" type="tns:PLSKU" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="PLSKU">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="SKU" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Product" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Multiplicity" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Length" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="Width" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="Height" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="Weight" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="Rank" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Active" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="QuantityAvailable" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="QuantityOnHand" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="QuantityAllocated" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="QuantityExpected" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="QuantityFrozen" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="PLGetSKUDataCode">
+        <s:restriction base="s:string">
+          <s:enumeration value="SUCCESS" />
+          <s:enumeration value="AUTHENTICATION_FAILURE" />
+          <s:enumeration value="NO_SKUS" />
+          <s:enumeration value="INVALID_ARGS" />
+          <s:enumeration value="INTERNAL_ERROR" />
+          <s:enumeration value="INVALID_SKUS" />
+          <s:enumeration value="TOO_MANY_SKUS_FOR_GET_ALL" />
+          <s:enumeration value="MAX_SKUS_EXCEEDED" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="PLCreateProduct">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="args" type="tns:PLCreateProductArgs" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="PLCreateProductArgs">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:ProLogApiArgs">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Products" type="tns:ArrayOfPLProductCreate" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="ArrayOfPLProductCreate">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="PLProductCreate" nillable="true" type="tns:PLProductCreate" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="PLProductCreate">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ProductId" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Active" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="FifoMaxDay" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Price" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="Cost" nillable="true" type="s:decimal" />
+          <s:element minOccurs="0" maxOccurs="1" name="ProductLine" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ProductCategory" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="PLCreateProductResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PLCreateProductResult" type="tns:PLCreateProductResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="PLCreateProductResult">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ProLogCode" type="tns:PLCreateProductCode" />
+          <s:element minOccurs="0" maxOccurs="1" name="ProLogMessage" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ErrorProducts" type="tns:ArrayOfString" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="PLCreateProductCode">
+        <s:restriction base="s:string">
+          <s:enumeration value="SUCCESS" />
+          <s:enumeration value="INVALID_ARGS" />
+          <s:enumeration value="AUTHENTICATION_FAILURE" />
+          <s:enumeration value="INTERNAL_ERROR" />
+          <s:enumeration value="INVALID_PRODUCTS" />
+          <s:enumeration value="DUPLICATE_PRODUCTS" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="PLCreateSKU">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="args" type="tns:PLCreateSKUArgs" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="PLCreateSKUArgs">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:ProLogApiArgs">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="SKUs" type="tns:ArrayOfPLSKUCreate" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="ArrayOfPLSKUCreate">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="PLSKUCreate" nillable="true" type="tns:PLSKUCreate" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="PLSKUCreate">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ProductId" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SKU" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Rank" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Multiplicity" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="UOM" type="tns:PLSKUUnitOfMeasure" />
+          <s:element minOccurs="0" maxOccurs="1" name="SKUGroup" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Active" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="Shippable" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="Length" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="Width" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="Height" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="Weight" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="StandardPrice" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="StandardCost" nillable="true" type="s:decimal" />
+          <s:element minOccurs="0" maxOccurs="1" name="CountryOfOrigin" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="PLSKUUnitOfMeasure">
+        <s:restriction base="s:string">
+          <s:enumeration value="EACH" />
+          <s:enumeration value="CASE" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="PLCreateSKUResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PLCreateSKUResult" type="tns:PLCreateSKUResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="PLCreateSKUResult">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ProLogCode" type="tns:PLCreateSKUCode" />
+          <s:element minOccurs="0" maxOccurs="1" name="ProLogMessage" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ErrorSKUs" type="tns:ArrayOfString" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="PLCreateSKUCode">
+        <s:restriction base="s:string">
+          <s:enumeration value="SUCCESS" />
+          <s:enumeration value="INVALID_ARGS" />
+          <s:enumeration value="AUTHENTICATION_FAILURE" />
+          <s:enumeration value="INTERNAL_ERROR" />
+          <s:enumeration value="INVALID_SKUS" />
+          <s:enumeration value="DUPLICATE_SKUS" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="PLGetOrderStatus">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="args" type="tns:PLGetOrderStatusArgs" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="PLGetOrderStatusArgs">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:ProLogApiArgs">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="OrderNumbers" type="tns:ArrayOfString" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="PLGetOrderStatusResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PLGetOrderStatusResult" type="tns:PLGetOrderStatusResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="PLGetOrderStatusResult">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:ProLogApiResult">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Orders" type="tns:ArrayOfPLOrderStatusHeader" />
+              <s:element minOccurs="1" maxOccurs="1" name="ProLogCode" type="tns:PLGetOrderStatusCode" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="ArrayOfPLOrderStatusHeader">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="PLOrderStatusHeader" nillable="true" type="tns:PLOrderStatusHeader" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="PLOrderStatusHeader">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ProLogOrderId" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="OrderNumber" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Status" type="tns:PLOrderStatus" />
+          <s:element minOccurs="1" maxOccurs="1" name="CompletedDate" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="ShippingService" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="LastUpdatedDate" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="Lines" type="tns:ArrayOfPLOrderStatusLine" />
+          <s:element minOccurs="0" maxOccurs="1" name="Shipments" type="tns:ArrayOfPLOrderStatusShipment" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="PLOrderStatus">
+        <s:restriction base="s:string">
+          <s:enumeration value="OPEN" />
+          <s:enumeration value="HOLD" />
+          <s:enumeration value="COMPLETED" />
+          <s:enumeration value="CANCELED" />
+          <s:enumeration value="DELETED" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="ArrayOfPLOrderStatusLine">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="PLOrderStatusLine" nillable="true" type="tns:PLOrderStatusLine" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="PLOrderStatusLine">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ProLogLineId" type="s:long" />
+          <s:element minOccurs="1" maxOccurs="1" name="LineNumber" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Product" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="QuantityOrdered" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="QuantityShipped" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="QuantityBackordered" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfPLOrderStatusShipment">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="PLOrderStatusShipment" nillable="true" type="tns:PLOrderStatusShipment" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="PLOrderStatusShipment">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ProLogShipmentId" type="s:long" />
+          <s:element minOccurs="0" maxOccurs="1" name="Warehouse" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ShippingService" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Status" type="tns:PLShipmentStatus" />
+          <s:element minOccurs="1" maxOccurs="1" name="ShippedDate" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="Packages" type="tns:ArrayOfPLOrderStatusPackage" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="PLShipmentStatus">
+        <s:restriction base="s:string">
+          <s:enumeration value="STAGED" />
+          <s:enumeration value="PICKING" />
+          <s:enumeration value="CHECKOUT" />
+          <s:enumeration value="SHIPPING" />
+          <s:enumeration value="SHIPPED" />
+          <s:enumeration value="CANCELED" />
+          <s:enumeration value="HOLD" />
+          <s:enumeration value="HOLDREADY" />
+          <s:enumeration value="DELETED" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="ArrayOfPLOrderStatusPackage">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="PLOrderStatusPackage" nillable="true" type="tns:PLOrderStatusPackage" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="PLOrderStatusPackage">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ProLogTrackingNumber" type="s:long" />
+          <s:element minOccurs="0" maxOccurs="1" name="TrackingNumber" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="ShippedDate" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="Weight" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="Cost" type="s:decimal" />
+          <s:element minOccurs="0" maxOccurs="1" name="Contents" type="tns:ArrayOfPLOrderStatusPackageContent" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfPLOrderStatusPackageContent">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="PLOrderStatusPackageContent" nillable="true" type="tns:PLOrderStatusPackageContent" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="PLOrderStatusPackageContent">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Product" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Quantity" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Sku" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="SkuQuantity" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Lots" type="tns:ArrayOfPLOrderStatusPackageContentLot" />
+          <s:element minOccurs="0" maxOccurs="1" name="Serials" type="tns:ArrayOfPLOrderStatusPackageContentSerial" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfPLOrderStatusPackageContentLot">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="PLOrderStatusPackageContentLot" nillable="true" type="tns:PLOrderStatusPackageContentLot" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="PLOrderStatusPackageContentLot">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Lot" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Quantity" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfPLOrderStatusPackageContentSerial">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="PLOrderStatusPackageContentSerial" nillable="true" type="tns:PLOrderStatusPackageContentSerial" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="PLOrderStatusPackageContentSerial">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Serial" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="PLGetOrderStatusCode">
+        <s:restriction base="s:string">
+          <s:enumeration value="SUCCESS" />
+          <s:enumeration value="INVALID_ARGS" />
+          <s:enumeration value="AUTHENTICATION_FAILURE" />
+          <s:enumeration value="INTERNAL_ERROR" />
+          <s:enumeration value="INVALID_ORDER" />
+          <s:enumeration value="MAX_ORDERS_EXCEEDED" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="PLSubmitOrder">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="args" type="tns:PLSubmitOrderArgs" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="PLSubmitOrderArgs">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:ProLogApiArgs">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Orders" type="tns:ArrayOfPLOrder" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="ArrayOfPLOrder">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="PLOrder" nillable="true" type="tns:PLOrder" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="PLOrder">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="OrderNumber" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CustomerNumber" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CustomerOrderNumber" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CustomerPO" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="OrderDate" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="Delay" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="AutoAllocate" nillable="true" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="Priority" nillable="true" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="PrimaryWarehouse" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="PartialShip" nillable="true" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="SplitShip" nillable="true" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="ShippingService" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="BillThridParty" nillable="true" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="AccountNumber" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="SaturdayDelivery" nillable="true" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="Residential" nillable="true" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="InsurePackages" nillable="true" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="InsureThreshold" nillable="true" type="s:decimal" />
+          <s:element minOccurs="0" maxOccurs="1" name="EmailConfirmationAddress" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PackingListTemplate" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PackingListComment" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="OrderProcessingVariation" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Subtotal" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="Shipping" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="Handling" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="Discount" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="Tax" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="Total" nillable="true" type="s:decimal" />
+          <s:element minOccurs="0" maxOccurs="1" name="Ref1" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Ref2" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Ref3" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Ref4" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Ref5" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="OrderLines" type="tns:ArrayOfPLOrderLine" />
+          <s:element minOccurs="0" maxOccurs="1" name="ShippingAddress" type="tns:PLOrderAddress" />
+          <s:element minOccurs="0" maxOccurs="1" name="BillingAddress" type="tns:PLOrderAddress" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfPLOrderLine">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="PLOrderLine" nillable="true" type="tns:PLOrderLine" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="PLOrderLine">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="LineNumber" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Product" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Quantity" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Price" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="DeclaredValue" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="ExtendedPrice" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="Discount" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="InsuranceValue" nillable="true" type="s:decimal" />
+          <s:element minOccurs="0" maxOccurs="1" name="Ref1" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Ref2" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Ref3" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Allocations" type="tns:ArrayOfPLOrderLineAllocation" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfPLOrderLineAllocation">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="PLOrderLineAllocation" nillable="true" type="tns:PLOrderLineAllocation" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="PLOrderLineAllocation">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Warhouse" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Quantity" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="PLOrderAddress">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="FirstName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="LastName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CompanyName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Address1" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Address2" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Address3" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PostalCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PhoneNumber" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="EmailAddress" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="PLSubmitOrderResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PLSubmitOrderResult" type="tns:PLSubmitOrderResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="PLSubmitOrderResult">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:ProLogApiResult">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="OrderResults" type="tns:ArrayOfPLOrderResult" />
+              <s:element minOccurs="1" maxOccurs="1" name="ProLogCode" type="tns:PLSubmitOrderCode" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="ArrayOfPLOrderResult">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="PLOrderResult" nillable="true" type="tns:PLOrderResult" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="PLOrderResult">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ProLogOrderId" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="OrderNumber" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Success" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="Errors" type="tns:ArrayOfString" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="PLSubmitOrderCode">
+        <s:restriction base="s:string">
+          <s:enumeration value="SUCCESS" />
+          <s:enumeration value="INVALID_ARGS" />
+          <s:enumeration value="AUTHENTICATION_FAILURE" />
+          <s:enumeration value="INTERNAL_ERROR" />
+          <s:enumeration value="MAX_ORDERS_EXCEEDED" />
+          <s:enumeration value="INVALID_ORDER" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="PLUpdateOrder">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="args" type="tns:PLUpdateOrderArgs" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="PLUpdateOrderArgs">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:ProLogApiArgs">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="OrderNumber" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Priority" nillable="true" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="AutoAllocate" nillable="true" type="s:boolean" />
+              <s:element minOccurs="0" maxOccurs="1" name="ShipConfirmEmailAddress" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="SplitShip" nillable="true" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="PartialShip" nillable="true" type="s:boolean" />
+              <s:element minOccurs="0" maxOccurs="1" name="Warehouse" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ShippingAddress" type="tns:PLOrderAddress" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="PLUpdateOrderResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PLUpdateOrderResult" type="tns:PLUpdateOrderResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="PLUpdateOrderResult">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:ProLogApiResult">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="ProLogCode" type="tns:PLUpdateOrderCode" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:simpleType name="PLUpdateOrderCode">
+        <s:restriction base="s:string">
+          <s:enumeration value="SUCCESS" />
+          <s:enumeration value="AUTHENTICATION_FAILURE" />
+          <s:enumeration value="INVALID_ARGS" />
+          <s:enumeration value="INTERNAL_ERROR" />
+          <s:enumeration value="ORDER_NOT_FOUND" />
+          <s:enumeration value="INVALID_ADDRESS" />
+          <s:enumeration value="ADDRESS_CANNOT_BE_CHANGED" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="PLDeleteOrder">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="args" type="tns:PLDeleteOrderArgs" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="PLDeleteOrderArgs">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:ProLogApiArgs">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="OrderNumber" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="PLDeleteOrderResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PLDeleteOrderResult" type="tns:PLDeleteOrderResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="PLDeleteOrderResult">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:ProLogApiResult">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="ProLogCode" type="tns:PLDeleteOrderCode" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:simpleType name="PLDeleteOrderCode">
+        <s:restriction base="s:string">
+          <s:enumeration value="SUCCESS" />
+          <s:enumeration value="AUTHENTICATION_FAILURE" />
+          <s:enumeration value="INVALID_ARGS" />
+          <s:enumeration value="INTERNAL_ERROR" />
+          <s:enumeration value="ORDER_CANNOT_BE_FOUND" />
+          <s:enumeration value="ORDER_CANNOT_BE_DELETED" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="PLSubmitASN">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="args" type="tns:PLSubmitASNArgs" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="PLSubmitASNArgs">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:ProLogApiArgs">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="ASN" type="tns:PLASNHeader" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="PLASNHeader">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ASNNumber" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PONumber" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Notes" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="ExpectedDate" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="Warehouse" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Carrier" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Lines" type="tns:ArrayOfPLASNLine" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfPLASNLine">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="PLASNLine" nillable="true" type="tns:PLASNLine" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="PLASNLine">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Sku" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="QuantityExpected" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="PLSubmitASNResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PLSubmitASNResult" type="tns:PLSubmitASNResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="PLSubmitASNResult">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:ProLogApiResult">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="ProLogCode" type="tns:PLSumbitASNCode" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:simpleType name="PLSumbitASNCode">
+        <s:restriction base="s:string">
+          <s:enumeration value="SUCCESS" />
+          <s:enumeration value="INVALID_ARGS" />
+          <s:enumeration value="AUTHENTICATION_FAILURE" />
+          <s:enumeration value="INTERNAL_ERROR" />
+          <s:enumeration value="INVALID_WAREHOUSE" />
+          <s:enumeration value="INVALID_CARRIER" />
+          <s:enumeration value="INVALID_SKUS" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="PLGetASNStatus">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="args" type="tns:PLGetASNStatusArgs" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="PLGetASNStatusArgs">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:ProLogApiArgs">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="ASNNumber" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="PONumber" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="PLGetASNStatusResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PLGetASNStatusResult" type="tns:PLGetASNStatusResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="PLGetASNStatusResult">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:ProLogApiResult">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="ASN" type="tns:PLASNStatusHeader" />
+              <s:element minOccurs="1" maxOccurs="1" name="ProLogCode" type="tns:PLGetASNStatusCode" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="PLASNStatusHeader">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ASNNumber" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PONumber" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Status" type="tns:PLASNStatus" />
+          <s:element minOccurs="0" maxOccurs="1" name="Notes" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Lines" type="tns:ArrayOfPLASNStatusLine" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="PLASNStatus">
+        <s:restriction base="s:string">
+          <s:enumeration value="WORKING" />
+          <s:enumeration value="EXPECTED" />
+          <s:enumeration value="OPEN" />
+          <s:enumeration value="COMPLETE" />
+          <s:enumeration value="CANCELLED" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="ArrayOfPLASNStatusLine">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="PLASNStatusLine" nillable="true" type="tns:PLASNStatusLine" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="PLASNStatusLine">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Sku" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Product" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="QuantityExpected" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="QuantityReceived" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="QuantityStocked" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="PLGetASNStatusCode">
+        <s:restriction base="s:string">
+          <s:enumeration value="SUCCESS" />
+          <s:enumeration value="INVALID_ARGS" />
+          <s:enumeration value="AUTHENTICATION_FAILURE" />
+          <s:enumeration value="INTERNAL_ERROR" />
+          <s:enumeration value="INVALID_ASN_PO_NUMBER" />
+        </s:restriction>
+      </s:simpleType>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="PLGetInventorySoapIn">
+    <wsdl:part name="parameters" element="tns:PLGetInventory" />
+  </wsdl:message>
+  <wsdl:message name="PLGetInventorySoapOut">
+    <wsdl:part name="parameters" element="tns:PLGetInventoryResponse" />
+  </wsdl:message>
+  <wsdl:message name="PLGetSKUDataSoapIn">
+    <wsdl:part name="parameters" element="tns:PLGetSKUData" />
+  </wsdl:message>
+  <wsdl:message name="PLGetSKUDataSoapOut">
+    <wsdl:part name="parameters" element="tns:PLGetSKUDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="PLCreateProductSoapIn">
+    <wsdl:part name="parameters" element="tns:PLCreateProduct" />
+  </wsdl:message>
+  <wsdl:message name="PLCreateProductSoapOut">
+    <wsdl:part name="parameters" element="tns:PLCreateProductResponse" />
+  </wsdl:message>
+  <wsdl:message name="PLCreateSKUSoapIn">
+    <wsdl:part name="parameters" element="tns:PLCreateSKU" />
+  </wsdl:message>
+  <wsdl:message name="PLCreateSKUSoapOut">
+    <wsdl:part name="parameters" element="tns:PLCreateSKUResponse" />
+  </wsdl:message>
+  <wsdl:message name="PLGetOrderStatusSoapIn">
+    <wsdl:part name="parameters" element="tns:PLGetOrderStatus" />
+  </wsdl:message>
+  <wsdl:message name="PLGetOrderStatusSoapOut">
+    <wsdl:part name="parameters" element="tns:PLGetOrderStatusResponse" />
+  </wsdl:message>
+  <wsdl:message name="PLSubmitOrderSoapIn">
+    <wsdl:part name="parameters" element="tns:PLSubmitOrder" />
+  </wsdl:message>
+  <wsdl:message name="PLSubmitOrderSoapOut">
+    <wsdl:part name="parameters" element="tns:PLSubmitOrderResponse" />
+  </wsdl:message>
+  <wsdl:message name="PLUpdateOrderSoapIn">
+    <wsdl:part name="parameters" element="tns:PLUpdateOrder" />
+  </wsdl:message>
+  <wsdl:message name="PLUpdateOrderSoapOut">
+    <wsdl:part name="parameters" element="tns:PLUpdateOrderResponse" />
+  </wsdl:message>
+  <wsdl:message name="PLDeleteOrderSoapIn">
+    <wsdl:part name="parameters" element="tns:PLDeleteOrder" />
+  </wsdl:message>
+  <wsdl:message name="PLDeleteOrderSoapOut">
+    <wsdl:part name="parameters" element="tns:PLDeleteOrderResponse" />
+  </wsdl:message>
+  <wsdl:message name="PLSubmitASNSoapIn">
+    <wsdl:part name="parameters" element="tns:PLSubmitASN" />
+  </wsdl:message>
+  <wsdl:message name="PLSubmitASNSoapOut">
+    <wsdl:part name="parameters" element="tns:PLSubmitASNResponse" />
+  </wsdl:message>
+  <wsdl:message name="PLGetASNStatusSoapIn">
+    <wsdl:part name="parameters" element="tns:PLGetASNStatus" />
+  </wsdl:message>
+  <wsdl:message name="PLGetASNStatusSoapOut">
+    <wsdl:part name="parameters" element="tns:PLGetASNStatusResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ProWaresServiceSoap">
+    <wsdl:operation name="PLGetInventory">
+      <wsdl:input message="tns:PLGetInventorySoapIn" />
+      <wsdl:output message="tns:PLGetInventorySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PLGetSKUData">
+      <wsdl:input message="tns:PLGetSKUDataSoapIn" />
+      <wsdl:output message="tns:PLGetSKUDataSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PLCreateProduct">
+      <wsdl:input message="tns:PLCreateProductSoapIn" />
+      <wsdl:output message="tns:PLCreateProductSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PLCreateSKU">
+      <wsdl:input message="tns:PLCreateSKUSoapIn" />
+      <wsdl:output message="tns:PLCreateSKUSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PLGetOrderStatus">
+      <wsdl:input message="tns:PLGetOrderStatusSoapIn" />
+      <wsdl:output message="tns:PLGetOrderStatusSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PLSubmitOrder">
+      <wsdl:input message="tns:PLSubmitOrderSoapIn" />
+      <wsdl:output message="tns:PLSubmitOrderSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PLUpdateOrder">
+      <wsdl:input message="tns:PLUpdateOrderSoapIn" />
+      <wsdl:output message="tns:PLUpdateOrderSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PLDeleteOrder">
+      <wsdl:input message="tns:PLDeleteOrderSoapIn" />
+      <wsdl:output message="tns:PLDeleteOrderSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PLSubmitASN">
+      <wsdl:input message="tns:PLSubmitASNSoapIn" />
+      <wsdl:output message="tns:PLSubmitASNSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PLGetASNStatus">
+      <wsdl:input message="tns:PLGetASNStatusSoapIn" />
+      <wsdl:output message="tns:PLGetASNStatusSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ProWaresServiceSoap" type="tns:ProWaresServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="PLGetInventory">
+      <soap:operation soapAction="http://prolog3pl.com/PLGetInventory" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PLGetSKUData">
+      <soap:operation soapAction="http://prolog3pl.com/PLGetSKUData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PLCreateProduct">
+      <soap:operation soapAction="http://prolog3pl.com/PLCreateProduct" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PLCreateSKU">
+      <soap:operation soapAction="http://prolog3pl.com/PLCreateSKU" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PLGetOrderStatus">
+      <soap:operation soapAction="http://prolog3pl.com/PLGetOrderStatus" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PLSubmitOrder">
+      <soap:operation soapAction="http://prolog3pl.com/PLSubmitOrder" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PLUpdateOrder">
+      <soap:operation soapAction="http://prolog3pl.com/PLUpdateOrder" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PLDeleteOrder">
+      <soap:operation soapAction="http://prolog3pl.com/PLDeleteOrder" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PLSubmitASN">
+      <soap:operation soapAction="http://prolog3pl.com/PLSubmitASN" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PLGetASNStatus">
+      <soap:operation soapAction="http://prolog3pl.com/PLGetASNStatus" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ProWaresServiceSoap12" type="tns:ProWaresServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="PLGetInventory">
+      <soap12:operation soapAction="http://prolog3pl.com/PLGetInventory" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PLGetSKUData">
+      <soap12:operation soapAction="http://prolog3pl.com/PLGetSKUData" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PLCreateProduct">
+      <soap12:operation soapAction="http://prolog3pl.com/PLCreateProduct" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PLCreateSKU">
+      <soap12:operation soapAction="http://prolog3pl.com/PLCreateSKU" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PLGetOrderStatus">
+      <soap12:operation soapAction="http://prolog3pl.com/PLGetOrderStatus" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PLSubmitOrder">
+      <soap12:operation soapAction="http://prolog3pl.com/PLSubmitOrder" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PLUpdateOrder">
+      <soap12:operation soapAction="http://prolog3pl.com/PLUpdateOrder" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PLDeleteOrder">
+      <soap12:operation soapAction="http://prolog3pl.com/PLDeleteOrder" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PLSubmitASN">
+      <soap12:operation soapAction="http://prolog3pl.com/PLSubmitASN" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PLGetASNStatus">
+      <soap12:operation soapAction="http://prolog3pl.com/PLGetASNStatus" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ProWaresService">
+    <wsdl:port name="ProWaresServiceSoap" binding="tns:ProWaresServiceSoap">
+      <soap:address location="http://clientws.prolog3pl.com/ProWaresService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="ProWaresServiceSoap12" binding="tns:ProWaresServiceSoap12">
+      <soap12:address location="http://clientws.prolog3pl.com/ProWaresService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

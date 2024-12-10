@@ -1,0 +1,68 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Data;
+using System.Data.Odbc;
+using System.Net.Mail;
+namespace WeblegsClasses
+{
+    public class Operations
+    {
+        
+        public static DataSet ReadCSVFile(string path,string fileName)
+        {
+            DataSet dataSet = new DataSet();
+            try
+            {
+                string connectionString = @"Driver={Microsoft Text Driver (*.txt; *.csv)}; DBQ=" + path;
+                string query = String.Format("select * from " + fileName);
+                OdbcDataAdapter dataAdapter = new OdbcDataAdapter(query, connectionString);
+
+                dataAdapter.Fill(dataSet);
+                return dataSet;
+            }
+            catch (Exception ex)
+            {
+                //MessageBox.Show(ex.Message);
+                throw ex;
+            }
+        }
+
+      
+        
+        /// <summary>
+        /// Send Mail to Client and Error mails to developer
+        /// </summary>
+        /// <param name="SendTo"></param>
+        /// <param name="Subject"></param>
+        /// <param name="Body"></param>
+        /// <returns></returns>
+        public static bool SendMail(string SendTo, string Subject, string Body)
+        {
+            try
+            {
+
+                MailMessage mail = new MailMessage();
+                mail.To.Add(SendTo);
+                mail.From = new MailAddress("weblegs.developer@gmail.com");
+                mail.Subject = Subject;
+                mail.Body = Body;
+                mail.IsBodyHtml = true;
+                SmtpClient smtp = new SmtpClient();
+                smtp.Host = "SMTP.gmail.com";
+                smtp.Port = 587;
+                smtp.Credentials = new System.Net.NetworkCredential("weblegs.developer@gmail.com", "ChrisMillar789");
+                smtp.EnableSsl = true;
+                smtp.Send(mail);
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
+        }
+    }
+
+
+}

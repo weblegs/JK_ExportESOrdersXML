@@ -1,0 +1,18 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="WeblegsClasses.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="WeblegsClasses_channeladvisor_OrderService_OrderService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">https://api.channeladvisor.com/ChannelAdvisorAPI/v5/OrderService.asmx</Value>
+    </Setting>
+    <Setting Name="WeblegsClasses_channeladvisor_InventoryService_InventoryService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">https://api.channeladvisor.com/ChannelAdvisorAPI/v5/InventoryService.asmx</Value>
+    </Setting>
+    <Setting Name="WeblegsClasses_com_prolog3pl_ProWaresService_ProWaresService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://clientws.prolog3pl.com/ProWaresService.asmx</Value>
+    </Setting>
+    <Setting Name="WeblegsClasses_api_channeladvisor_ShippingService_ShippingService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">https://api.channeladvisor.com/ChannelAdvisorAPI/v5/ShippingService.asmx</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
